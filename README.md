@@ -160,12 +160,7 @@ PredictLadder <- function(raw.data, name.table, new.filename) {
     }
     raw.data
 }
-```
 
-![Example name table that we used for aliasing](nametable.png)
-
-
-```{r eval=FALSE}
 ## alias names according to name table
 AliasNames <- function(raw.data, name.table, new.filename) {
     n <-  nrow(name.table)
