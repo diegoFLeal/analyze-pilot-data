@@ -1,4 +1,4 @@
-load("RENN_Cleaned.Rda")
+load("SE_Cleaned.Rda")
 
 library(igraph)
 
@@ -7,7 +7,7 @@ library(igraph)
 ####################################################################################
 
 f2f <- renn.cleaned.data[ , grepl( "Q_sn_f2finteract" , names( renn.cleaned.data ) ) ]
-f2f <- f2f[,4:101]
+f2f <- f2f[,5:length(f2f)]
 f2f$id <- as.character(renn.cleaned.data$Q_id)
 f2f<-f2f[ , order(names(f2f))]
 f2f<-f2f[,c(which(colnames(f2f)=="id"),which(colnames(f2f)!="id"))]
@@ -16,9 +16,9 @@ subjectnames <- c()
 
 for (i in seq(0,length(f2f)-2)){
     if (i < 10){
-        name <- paste("x50",i,sep="")
+        name <- paste("x60",i,sep="")
     } else {
-        name <- paste("x5",i,sep="")
+        name <- paste("x6",i,sep="")
     }
     subjectnames <- c(subjectnames, name)
 }
@@ -28,7 +28,7 @@ for (s in subjectnames){
         need <- c(need,s)
     }
 }
-
+f2f<- f2f[!duplicated(f2f$id),]
 for (n in need){
     f2f <- rbind(f2f,c(n, rep(0, length(f2f)-1)))
 }
@@ -45,7 +45,7 @@ f2fm <- as.matrix(f2fc)
 network=graph_from_adjacency_matrix(f2fm , mode='directed', diag=F )
 
 
-png(filename="~/Desktop/f2f.png", heigh=4000, width=6000)
+png(filename="~/Desktop/f2f_se.png", heigh=4000, width=6000)
 plot(network, 
      layout=layout.fruchterman.reingold, 
      main="fruchterman.reingold", 
@@ -57,18 +57,18 @@ dev.off()
 ####################################################################################
 
 on <- renn.cleaned.data[ , grepl( "Q_sn_online" , names( renn.cleaned.data ) ) ]
-on <- on[,c(3,5:102)]
+on <- on[,c(5:length(on))]
 on$id <- as.character(renn.cleaned.data$Q_id)
 on<-on[ , order(names(on))]
 on<-on[,c(which(colnames(on)=="id"),which(colnames(on)!="id"))]
 
-subjectnames <- c("-99")
+subjectnames <- c()
 
 for (i in seq(0,length(on)-3)){
     if (i < 10){
-        name <- paste("x50",i,sep="")
+        name <- paste("x60",i,sep="")
     } else {
-        name <- paste("x5",i,sep="")
+        name <- paste("x6",i,sep="")
     }
     subjectnames <- c(subjectnames, name)
 }
@@ -78,7 +78,7 @@ for (s in subjectnames){
         need <- c(need,s)
     }
 }
-
+on<- on[!duplicated(on$id),]
 for (n in need){
     on <- rbind(on,c(n, rep(0, length(on)-1)))
 }
@@ -95,7 +95,7 @@ onm <- as.matrix(onc)
 network=graph_from_adjacency_matrix(onm , mode='directed', diag=F )
 
 
-png(filename="~/Desktop/onlineinteract.png", heigh=4000, width=6000)
+png(filename="~/Desktop/onlineinteract_se.png", heigh=4000, width=6000)
 plot(network, 
      layout=layout.fruchterman.reingold, 
      main="fruchterman.reingold", 
@@ -116,9 +116,9 @@ subjectnames <- c()
 
 for (i in seq(0,length(sent)-2)){
     if (i < 10){
-        name <- paste("x50",i,sep="")
+        name <- paste("x60",i,sep="")
     } else {
-        name <- paste("x5",i,sep="")
+        name <- paste("x6",i,sep="")
     }
     subjectnames <- c(subjectnames, name)
 }
@@ -128,7 +128,7 @@ for (s in subjectnames){
         need <- c(need,s)
     }
 }
-
+sent<- sent[!duplicated(sent$id),]
 for (n in need){
     sent <- rbind(sent,c(n, rep(0, length(sent)-1)))
 }
@@ -144,7 +144,7 @@ sentm <- as.matrix(sentc)
 network=graph_from_adjacency_matrix(sentm , mode='directed', diag=F )
 
 
-png(filename="~/Desktop/sentiment.png", heigh=4000, width=6000)
+png(filename="~/Desktop/sentiment_se.png", heigh=4000, width=6000)
 plot(network, 
      layout=layout.fruchterman.reingold, 
      main="fruchterman.reingold", 
