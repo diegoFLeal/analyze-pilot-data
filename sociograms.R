@@ -87,6 +87,8 @@ for (i in 1:n)
 ## export the resulting edgelist
 write.csv(x=edgelist,file="edgelist.csv",row.names=TRUE)
 
+write.csv(x=data,file="renn.cleaned.data.csv",row.names=TRUE)
+
 ## get ride of non-populated rows (i.e. rows with NAs)
 edgelist<-edgelist[complete.cases(edgelist), ]
 
@@ -126,12 +128,11 @@ for(i in 1:length(CCC))
   edgelist<-subset(edgelist,V2!=element)
 }
 
-## create a network object based on the resulting edgelist
-net<-as.network.matrix(edgelist,matrix.type = "edgelist")
-
 ## add labels as a node attribute
 all_IDs<-as.vector(data$Q_id)
-network.vertex.names(net) <-all_IDs
+
+## create a network object based on the resulting edgelist
+net<-as.network.matrix(edgelist,matrix.type = "edgelist",vnames=all_IDs)
 
 ## make gender info numeric
 data$gender<-as.numeric(data$Q_gender)
